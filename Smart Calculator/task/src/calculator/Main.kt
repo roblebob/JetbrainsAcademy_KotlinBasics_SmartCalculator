@@ -1,6 +1,16 @@
 package calculator
 
 fun main() {
-    val inputs = readln().split(" ").toList().map { it.toInt() }
-    println(inputs.sum())
+    while (true){
+        val input = readln()
+
+        when  {
+            input.contains("/exit") -> break
+            input.isEmpty() -> continue
+        }
+
+        val list = input.split(" ").toList().map { it.toInt() }
+        println(list.sum())
+    }
+    println("Bye!")
 }
