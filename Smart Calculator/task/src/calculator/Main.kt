@@ -6,6 +6,10 @@ fun main() {
 
         when  {
             input.contains("/exit") -> break
+            input.contains("/help") -> {
+                println("The program calculates the sum of numbers")
+                continue
+            }
             input.isEmpty() -> continue
         }
 
