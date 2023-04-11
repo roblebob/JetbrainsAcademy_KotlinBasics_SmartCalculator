@@ -5,17 +5,23 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="delegatedBuild" value="false" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Smart Calculator/task" />
             <option value="$PROJECT_DIR$/Topics/Characters/A capital letter or a digit" />
             <option value="$PROJECT_DIR$/Topics/Characters/Compare Latin letters" />
             <option value="$PROJECT_DIR$/Topics/Characters/Digits or not" />
             <option value="$PROJECT_DIR$/Topics/Characters/Previous character" />
             <option value="$PROJECT_DIR$/Topics/Characters/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Creating custom exceptions/Correct custom exceptions" />
+            <option value="$PROJECT_DIR$/Topics/Creating custom exceptions/Create custom exception" />
+            <option value="$PROJECT_DIR$/Topics/Creating custom exceptions/Custom exception" />
+            <option value="$PROJECT_DIR$/Topics/Creating custom exceptions/Multiple constructors" />
+            <option value="$PROJECT_DIR$/Topics/Creating custom exceptions/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Creating custom exceptions/Throwing NullPointerException" />
             <option value="$PROJECT_DIR$/Topics/Default arguments/Car speed" />
             <option value="$PROJECT_DIR$/Topics/Default arguments/Declarations" />
             <option value="$PROJECT_DIR$/Topics/Default arguments/Print Username" />
@@ -41,6 +47,10 @@
             <option value="$PROJECT_DIR$/Topics/If expression/Queens" />
             <option value="$PROJECT_DIR$/Topics/If expression/The max of three numbers" />
             <option value="$PROJECT_DIR$/Topics/If expression/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Integers in action/Reversing a number" />
+            <option value="$PROJECT_DIR$/Topics/Integers in action/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Integers in action/Time format" />
+            <option value="$PROJECT_DIR$/Topics/Integers in action/Underscore" />
             <option value="$PROJECT_DIR$/Topics/Nested and inner classes/A bow and a cat" />
             <option value="$PROJECT_DIR$/Topics/Nested and inner classes/Christmas tree" />
             <option value="$PROJECT_DIR$/Topics/Nested and inner classes/Improve your vehicle" />
@@ -48,6 +58,11 @@
             <option value="$PROJECT_DIR$/Topics/Nested and inner classes/Pumpkin and candle" />
             <option value="$PROJECT_DIR$/Topics/Nested and inner classes/Theory" />
             <option value="$PROJECT_DIR$/Topics/Nested and inner classes/Your vehicle" />
+            <option value="$PROJECT_DIR$/Topics/Object declarations/Board game basics  Game" />
+            <option value="$PROJECT_DIR$/Topics/Object declarations/Keyword" />
+            <option value="$PROJECT_DIR$/Topics/Object declarations/Me" />
+            <option value="$PROJECT_DIR$/Topics/Object declarations/Properties" />
+            <option value="$PROJECT_DIR$/Topics/Object declarations/Theory" />
             <option value="$PROJECT_DIR$/Topics/Taming exceptions/A winning car" />
             <option value="$PROJECT_DIR$/Topics/Taming exceptions/Exception into a variable" />
             <option value="$PROJECT_DIR$/Topics/Taming exceptions/Handle number format exception" />

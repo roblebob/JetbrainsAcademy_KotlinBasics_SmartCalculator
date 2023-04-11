@@ -1,0 +1,29 @@
+<h2>Correct custom exceptions</h2>
+<div class="step-text">
+<p></p>
+<p>Which of the following custom exceptions is correctly defined?</p>
+<p>a)</p>
+<pre><code class="language-kotlin">class CustomException1: Exception {
+    constructor() ; super()
+    constructor(message: String?) ; super(message)
+    constructor(message: String?, cause: Throwable?) ; super(message, cause)
+    constructor(cause: Throwable?) ; super(cause)
+}</code></pre>
+<p>b)</p>
+<pre><code class="language-kotlin">class CustomException2(): Exception {
+    constructor(message: String?) : super(message)
+    constructor(message: String?, cause: Throwable?) : super(message, cause)
+    constructor(cause: Throwable?) : super(cause)
+}</code></pre>
+<p>c)</p>
+<pre><code class="language-kotlin">class CustomException3: Exception {
+    constructor() : super()
+    constructor(cause: Throwable?) : super(cause)
+}</code></pre>
+<p>d)</p>
+<pre><code class="language-kotlin">class CustomException4: Exception {
+    constructor() : super()
+    constructor() : super(message: String?)
+    constructor() : super(cause: Throwable?)
+}</code></pre>
+</div>

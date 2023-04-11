@@ -6,3 +6,6 @@ content:
 - Floating-point types
 - Default arguments
 - If expression
+- Object declarations
+- Integers in action
+- Creating custom exceptions
