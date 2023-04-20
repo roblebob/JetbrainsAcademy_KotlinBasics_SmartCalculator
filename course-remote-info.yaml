@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/271268/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: "Wed, 12 Apr 2023 12:22:31 UTC"
+update_date: "Thu, 20 Apr 2023 06:29:36 UTC"
 stages:
 - id: 486
   step: 7809
@@ -19,10 +19,10 @@ stages:
   is_completed: true
 - id: 490
   step: 7813
-  is_completed: false
+  is_completed: true
 - id: 491
   step: 7814
-  is_completed: false
+  is_completed: true
 - id: 492
   step: 7815
   is_completed: false
@@ -41,10 +41,6 @@ topics:
     theory_id: 3509
   - title: Heap
     theory_id: 19212
-  - title: Garbage Collector
-    theory_id: 15163
-  - title: Garbage collection approaches
-    theory_id: 17271
   - title: Units of information
     theory_id: 6865
   - title: IDE
@@ -61,6 +57,10 @@ topics:
     theory_id: 16927
   - title: The concept of patterns
     theory_id: 3611
+  - title: Garbage Collector
+    theory_id: 15163
+  - title: Garbage collection approaches
+    theory_id: 17271
   - title: Computer programming
     theory_id: 8739
   - title: Paradigms

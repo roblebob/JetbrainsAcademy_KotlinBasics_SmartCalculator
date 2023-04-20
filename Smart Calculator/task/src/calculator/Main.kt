@@ -1,6 +1,134 @@
 package calculator
 
-import java.lang.Exception
+
+object Assigner {
+    private val map  = mutableMapOf<String, Int>()
+
+
+    fun process(input: String) {
+        val list = input.replace("[\\s]+".toRegex(), "").split("=".toRegex(), 2)
+
+        val lhs = list[0]
+        val rhs = list[1]
+
+        if (!lhs.matches("[a-zA-Z]+".toRegex())) {
+            println("Invalid identifier")
+            return
+        }
+
+        if (map.containsKey(rhs)) {
+            map[lhs] = map[rhs]!!
+            return
+        }
+
+        if (rhs.toIntOrNull() != null) {
+            map[lhs] = rhs.toInt()
+            return
+        }
+
+        println("Invalid assignment")
+    }
+
+    fun has(key: String) = map.contains(key)
+
+    fun get(key: String) = map[key]
+}
+
+
+
+fun main() {
+
+    var value = Value(value = 0)
+    loop@ while (true){
+        val input = readln()
+
+        when  {
+            input.isEmpty() -> continue
+
+            // ... as commands
+            input.contains("/exit") -> break
+            input.contains("/help") -> {
+                println("The program calculates the sum of numbers")
+                continue
+            }
+            input[0] == '/' -> {
+                println("Unknown command")
+                continue
+            }
+
+            // ... as assignment
+            input.contains("=") -> {
+                Assigner.process(input)
+                continue
+            }
+        }
+
+        // ... as expression
+
+        val list = input.split(" ").toMutableList()
+
+        if (!check1(list)) {
+            println("Invalid expression")
+            continue
+        }
+
+        if (!check2(list)) {
+            println("Unknown variable")
+            continue
+        }
+
+        if (list.size >= 1) {
+
+            val first = list.removeFirst()
+
+            val x: Int? = first.toIntOrNull() ?: Assigner.get(first)
+
+            if (x == null) {
+                println("Unknown variable")
+                continue
+            }
+            value = Value(value = x)
+        }
+
+        while (list.isNotEmpty()) {
+
+            val op = list.removeFirst()
+
+            val s = list.removeFirst()
+
+            value = Value(
+                left = value,
+                op = op,
+                right = Value(value = s.toIntOrNull() ?: Assigner.get(s))
+            )
+        }
+
+        println(value.value)
+    }
+    println("Bye!")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Value(
     var left: Value? = null,
@@ -35,43 +163,38 @@ class Value(
 
 
 
-fun main() {
-    var value = Value(value = 0)
-    while (true){
-        val input = readln()
-
-        when  {
-            input.contains("/exit") -> break
-            input.contains("/help") -> {
-                println("The program calculates the sum of numbers")
-                continue
-            }
-            input.isEmpty() -> continue
-        }
-
-        val list = input.split(" ").toMutableList()
-
-
-
-
-        if (list.size >= 1) {
-            value = Value(value = list.removeFirst().toInt())
-        }
-
-        if (list.size == 1 || list.size % 2 == 1) {
-            throw Exception("Invalid input")
-        }
-
-        while (list.isNotEmpty()) {
-
-            value = Value(
-                left = value,
-                op = list.removeFirst(),
-                right = Value(value = list.removeFirst().toInt())
-            )
-        }
-
-        println(value.value)
+fun check1(list: List<String>): Boolean {
+    if (list.size % 2 == 0) {
+        return false
     }
-    println("Bye!")
+
+    var res = true
+    for (i in list.indices) {
+
+        res = res && when (i % 2 == 0) {
+            true -> list[i].toIntOrNull() != null || "[a-zA-Z]+".toRegex().matches(list[i])
+
+            false -> "([+]+|[-]+)".toRegex().matches(list[i])
+        }
+    }
+
+    return res
+}
+
+fun check2(list: List<String>): Boolean {
+    if (list.size % 2 == 0) {
+        return false
+    }
+
+    var res = true
+    for (i in list.indices) {
+
+        res = res && when (i % 2 == 0) {
+            true -> list[i].toIntOrNull() != null || Assigner.has(list[i])
+
+            false -> "([+]+|[-]+)".toRegex().matches(list[i])
+        }
+    }
+
+    return res
 }
