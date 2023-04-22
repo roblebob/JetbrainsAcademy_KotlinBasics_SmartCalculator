@@ -1,9 +1,14 @@
 package calculator
 
+val isOperand =  { s: String -> s.matches("([+]|[-])*[0-9]+".toRegex()) || Assigner.has(s) }
+
+
+val isNumericOperand = { s: String -> s.matches("([+]|[-])*[0-9]+".toRegex()) }
+
+val isOperator = { s: String -> s.matches("([+]|[-]|[*]|[/])".toRegex()) }
 
 object Assigner {
     private val map  = mutableMapOf<String, Int>()
-
 
     fun process(input: String) {
         val list = input.replace("[\\s]+".toRegex(), "").split("=".toRegex(), 2)
@@ -38,7 +43,6 @@ object Assigner {
 
 fun main() {
 
-    var value = Value(value = 0)
     loop@ while (true){
         val input = readln()
 
@@ -61,140 +65,123 @@ fun main() {
                 Assigner.process(input)
                 continue
             }
-        }
 
-        // ... as expression
+            // ... as expression
+            else -> {
+                val postfix = infixToPostfix(input
+                    .replace("(", " ( ")
+                    .replace(")", " ) ")
+                    .split("[\\s]+".toRegex())
+                    .filter { it.matches("[\\S]+".toRegex()) }
+                    .map { it ->
+                        when {
+                            it.matches("[+]+".toRegex()) ||
+                            it.matches("[-]+".toRegex()) && it.count { el -> el == '-' } % 2 == 0 -> "+"
+                            it.matches("[-]+".toRegex()) && it.count { el -> el == '-' } % 2 == 1 -> "-"
+                            else -> it
+                        }
+                    }
+                    .toMutableList())
 
-        val list = input.split(" ").toMutableList()
+                if (postfix.isEmpty()) {
+                    println("Invalid expression")
+                    continue
+                }
 
-        if (!check1(list)) {
-            println("Invalid expression")
-            continue
-        }
+                println(evalPostfix(postfix) ?: "Invalid expression")
 
-        if (!check2(list)) {
-            println("Unknown variable")
-            continue
-        }
-
-        if (list.size >= 1) {
-
-            val first = list.removeFirst()
-
-            val x: Int? = first.toIntOrNull() ?: Assigner.get(first)
-
-            if (x == null) {
-                println("Unknown variable")
                 continue
             }
-            value = Value(value = x)
         }
-
-        while (list.isNotEmpty()) {
-
-            val op = list.removeFirst()
-
-            val s = list.removeFirst()
-
-            value = Value(
-                left = value,
-                op = op,
-                right = Value(value = s.toIntOrNull() ?: Assigner.get(s))
-            )
-        }
-
-        println(value.value)
     }
     println("Bye!")
 }
 
 
+fun infixToPostfix(infix: MutableList<String>): MutableList<String> {
+    // prep
+    val stack = mutableListOf<String>()
+    val postfix = mutableListOf<String>()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Value(
-    var left: Value? = null,
-    var right: Value? = null,
-    var op: String? = null,
-    var value: Int? = null,
-){
-
-    constructor(value: Int) : this() {
-        this.value = value
-    }
-
-    constructor(left: Value, right: Value, op: String) : this() {
-        this.left = left
-        this.right = right
-        this.op = when {
-            op!!.contains("+") || op!!.contains("-") && op!!.count {it == '-'} % 2 == 0 -> "+"
-            op!!.contains("-") -> "-"
-            else -> op
-        }
-        this.value = when(this.op) {
-            "+" -> (this.left?.value?:0) + (this.right?.value?:0)
-            "-" -> (this.left?.value?:0) - (this.right?.value?:0)
-            else -> 0
+    val hasPrecedence = {op: String ->
+        assert(isOperator(op))
+        assert(isOperator(stack.last()))
+        when {
+            op.matches("([*]|[/])".toRegex()) && stack.last().matches("([+]|[-])".toRegex()) -> true
+            else -> false
         }
     }
 
+    while (infix.isNotEmpty()) {
+
+        when {
+            isOperand(infix.first()) -> postfix.add(infix.removeFirst())
+
+            isOperator(infix.first()) -> {
+                while (stack.isNotEmpty() && stack.last() != "(" && !hasPrecedence(infix.first())) {
+                    postfix.add(stack.removeLast())
+                }
+                stack.add(infix.removeFirst())
+            }
+
+            infix.first() == "(" ->  stack.add(infix.removeFirst())
 
 
 
+            infix.first() == ")" -> {
+                while (stack.isNotEmpty() && stack.last() != "(") {
+                    postfix.add(stack.removeLast())
+                }
+                // Discard the pair of parentheses.
+                if (stack.isNotEmpty() && stack.last() == "(") {
+                    stack.removeLast()
+                } else {
+                    return mutableListOf()
+                }
+                infix.removeFirst()
+            }
+
+            else -> {
+                return mutableListOf<String>()
+            }
+        }
+
+    }
+    // At the end of the expression, pop the stack and add all operators to the result.
+    while (stack.isNotEmpty()) {
+        postfix.add(stack.removeLast())
+    }
+    // No parentheses should remain on the stack. Otherwise, the expression has unbalanced brackets. It is a syntax error.
+
+    return postfix
 }
 
 
+fun evalPostfix(postfix: MutableList<String>): Int? {
 
-fun check1(list: List<String>): Boolean {
-    if (list.size % 2 == 0) {
-        return false
-    }
+    val stack = mutableListOf<Int?>()
 
-    var res = true
-    for (i in list.indices) {
+    while (postfix.isNotEmpty()) {
+        when {
+            isNumericOperand(postfix.first()) -> stack.add(postfix.removeFirst().toInt())
 
-        res = res && when (i % 2 == 0) {
-            true -> list[i].toIntOrNull() != null || "[a-zA-Z]+".toRegex().matches(list[i])
+            Assigner.has(postfix.first()) -> stack.add(Assigner.get(postfix.removeFirst())!!)
 
-            false -> "([+]+|[-]+)".toRegex().matches(list[i])
+            isOperator(postfix.first()) -> {
+                val arg2 = stack.removeLast()
+                val arg1 = stack.removeLast()
+
+                stack.add(when (postfix.removeFirst()) {
+                    "+" -> arg1?.plus(arg2!!)
+                    "-" -> arg1?.minus(arg2!!)
+                    "*" -> arg1?.times(arg2!!)
+                    "/" -> arg1?.div(arg2!!)
+                    else -> null
+                })
+            }
+
+            else -> return null
         }
     }
-
-    return res
-}
-
-fun check2(list: List<String>): Boolean {
-    if (list.size % 2 == 0) {
-        return false
-    }
-
-    var res = true
-    for (i in list.indices) {
-
-        res = res && when (i % 2 == 0) {
-            true -> list[i].toIntOrNull() != null || Assigner.has(list[i])
-
-            false -> "([+]+|[-]+)".toRegex().matches(list[i])
-        }
-    }
-
-    return res
+    return stack.last()
 }
