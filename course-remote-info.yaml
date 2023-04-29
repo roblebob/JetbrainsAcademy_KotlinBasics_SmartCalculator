@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/271268/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: "Sat, 22 Apr 2023 09:07:35 UTC"
+update_date: "Sat, 29 Apr 2023 09:13:40 UTC"
 stages:
 - id: 486
   step: 7809
@@ -28,7 +28,7 @@ stages:
   is_completed: true
 - id: 493
   step: 7816
-  is_completed: false
+  is_completed: true
 topics:
   0:
   - title: Binary numbers
@@ -165,6 +165,8 @@ topics:
     theory_id: 5504
   - title: Documentation
     theory_id: 12069
+  - title: Introduction to software architecture
+    theory_id: 15368
   - title: IntelliJ IDEA
     theory_id: 3801
   - title: IntelliJ IDEA basics
@@ -175,8 +177,6 @@ topics:
     theory_id: 5829
   - title: Fixing code
     theory_id: 5834
-  - title: Introduction to software architecture
-    theory_id: 15368
   - title: Design principles
     theory_id: 8956
   - title: Single Responsibility Principle
@@ -261,7 +261,7 @@ topics:
   - title: Mutable List
     theory_id: 11032
   - title: Queue
-    theory_id: 20716
+    theory_id: 28474
   7:
   - title: BigInteger
     theory_id: 7964

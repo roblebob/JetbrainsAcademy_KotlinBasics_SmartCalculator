@@ -1,5 +1,7 @@
 package calculator
 
+import java.math.BigInteger
+
 val isOperand =  { s: String -> s.matches("([+]|[-])*[0-9]+".toRegex()) || Assigner.has(s) }
 
 
@@ -8,7 +10,7 @@ val isNumericOperand = { s: String -> s.matches("([+]|[-])*[0-9]+".toRegex()) }
 val isOperator = { s: String -> s.matches("([+]|[-]|[*]|[/])".toRegex()) }
 
 object Assigner {
-    private val map  = mutableMapOf<String, Int>()
+    private val map  = mutableMapOf<String, BigInteger>()
 
     fun process(input: String) {
         val list = input.replace("[\\s]+".toRegex(), "").split("=".toRegex(), 2)
@@ -26,8 +28,8 @@ object Assigner {
             return
         }
 
-        if (rhs.toIntOrNull() != null) {
-            map[lhs] = rhs.toInt()
+        if (rhs.toBigIntegerOrNull() != null) {
+            map[lhs] = rhs.toBigInteger()
             return
         }
 
@@ -59,6 +61,12 @@ fun main() {
                 println("Unknown command")
                 continue
             }
+
+            input.matches("[a-zA-Z]+".toRegex()) && !Assigner.has(input) -> {
+                println("Unknown variable")
+                continue
+            }
+
 
             // ... as assignment
             input.contains("=") -> {
@@ -157,13 +165,13 @@ fun infixToPostfix(infix: MutableList<String>): MutableList<String> {
 }
 
 
-fun evalPostfix(postfix: MutableList<String>): Int? {
+fun evalPostfix(postfix: MutableList<String>): BigInteger? {
 
-    val stack = mutableListOf<Int?>()
+    val stack = mutableListOf<BigInteger?>()
 
     while (postfix.isNotEmpty()) {
         when {
-            isNumericOperand(postfix.first()) -> stack.add(postfix.removeFirst().toInt())
+            isNumericOperand(postfix.first()) -> stack.add(postfix.removeFirst().toBigInteger())
 
             Assigner.has(postfix.first()) -> stack.add(Assigner.get(postfix.removeFirst())!!)
 

@@ -1,3 +1,2 @@
-class ValueIsNegative : Exception() {
+class ValueIsNegative: Exception() {
 }
-
