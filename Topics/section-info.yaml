@@ -11,3 +11,4 @@ content:
 - Creating custom exceptions
 - Regexps in use
 - BigInteger
+- Type cast and smart cast
